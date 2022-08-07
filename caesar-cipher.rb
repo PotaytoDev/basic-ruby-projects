@@ -13,18 +13,32 @@ def caesar_cipher(string, shift_factor, shift_direction)
   puts modified_character_array.join
 end
 
-def wrap_around_boundaries(character_integer_value)
-  # If character_integer_value goes over "z" boundary, wrap back around to "a"
+def wrap_around_boundaries(character_integer_value, lower_boundary, upper_boundary)
+  # If character_integer_value goes over upper boundary, wrap back around to lower boundary
   # 1 is subtracted because wrapping back around counts as one step
-  if character_integer_value > 'z'.ord
-    ('a'.ord + (character_integer_value - 'z'.ord).abs) - 1
-  # If character_integer_value goes below "a" boundary, wrap back around to "z"
+  if character_integer_value > upper_boundary.ord
+    (lower_boundary.ord + (character_integer_value - upper_boundary.ord).abs) - 1
+  # If character_integer_value goes below lower boundary, wrap back around to upper boundary
   # 1 is added to account for the shifting that takes place by wrapping back around
-  elsif character_integer_value < 'a'.ord
-    ('z'.ord - (character_integer_value - 'a'.ord).abs) + 1
+  elsif character_integer_value < lower_boundary.ord
+    (upper_boundary.ord - (character_integer_value - lower_boundary.ord).abs) + 1
   else
     character_integer_value
   end
+end
+
+def determine_boundaries(character_integer_value)
+  boundaries = {}
+
+  if (character_integer_value >= 'a'.ord && character_integer_value <= 'z'.ord)
+    boundaries[:lower_boundary] = 'a'
+    boundaries[:upper_boundary] = 'z'
+  else
+    boundaries[:lower_boundary] = 'A'
+    boundaries[:upper_boundary] = 'Z'
+  end
+
+  boundaries
 end
 
 def calculate_new_value(character_integer_value, shift_factor, shift_direction)
@@ -32,6 +46,8 @@ def calculate_new_value(character_integer_value, shift_factor, shift_direction)
       (character_integer_value >= 'a'.ord && character_integer_value <= 'z'.ord)
           return character_integer_value
   end
+
+  boundaries = determine_boundaries(character_integer_value)
 
   case shift_direction
   when "right"
@@ -42,7 +58,9 @@ def calculate_new_value(character_integer_value, shift_factor, shift_direction)
     character_integer_value
   end
 
-  wrap_around_boundaries(character_integer_value)
+  wrap_around_boundaries(character_integer_value, boundaries[:lower_boundary],
+      boundaries[:upper_boundary])
 end
 
-caesar_cipher("hello world", 1, "left")
+caesar_cipher("Hello World!", 20, "left")
+caesar_cipher("Nkrru Cuxrj!", 20, "right")
