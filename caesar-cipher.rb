@@ -30,7 +30,7 @@ end
 def determine_boundaries(character_integer_value)
   boundaries = {}
 
-  if (character_integer_value >= 'a'.ord && character_integer_value <= 'z'.ord)
+  if (character_integer_value.between?('a'.ord, 'z'.ord))
     boundaries[:lower_boundary] = 'a'
     boundaries[:upper_boundary] = 'z'
   else
@@ -42,8 +42,8 @@ def determine_boundaries(character_integer_value)
 end
 
 def calculate_new_value(character_integer_value, shift_factor, shift_direction)
-  unless (character_integer_value >= 'A'.ord && character_integer_value <= 'Z'.ord) ||
-      (character_integer_value >= 'a'.ord && character_integer_value <= 'z'.ord)
+  unless (character_integer_value.between?('A'.ord, 'Z'.ord)) ||
+      (character_integer_value.between?('a'.ord, 'z'.ord))
           return character_integer_value
   end
 
