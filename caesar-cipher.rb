@@ -62,5 +62,20 @@ def calculate_new_value(character_integer_value, shift_factor, shift_direction)
       boundaries[:upper_boundary])
 end
 
-caesar_cipher("Hello World!", 20, "left")
-caesar_cipher("Nkrru Cuxrj!", 20, "right")
+def take_user_input()
+  user_input = {}
+
+  print "Enter the string you want to encode/decode: "
+  user_input[:message] = gets.chomp
+
+  print "Enter the shift factor: "
+  user_input[:shift_factor] = gets.chomp.to_i
+
+  print "Enter the shift direction: "
+  user_input[:shift_direction] = gets.chomp
+
+  user_input
+end
+
+user_input = take_user_input()
+caesar_cipher(user_input[:message], user_input[:shift_factor], user_input[:shift_direction])
